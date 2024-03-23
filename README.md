@@ -8,7 +8,11 @@ A medical diagnosis assistant chatbot powered by advanced AI to instantly provid
 ```python ingest.py``` This will take a while.
 
 ## 3. LLM
-Download llama-2-7b-chat.ggmlv3.q8_0.bin (about 7gb) from [hugging face](https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGML/blob/main/llama-2-7b-chat.ggmlv3.q8_0.bin "TheBloke"). Place the LLM.bin file into this folder where ```ingest.py``` resides.
+Download llama-2-7b-chat.ggmlv3.q8_0.bin (about 7gb) from [hugging face](https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGML/blob/main/llama-2-7b-chat.ggmlv3.q8_0.bin "TheBloke").
+
+## 4. Running the program
+CTransformer: ```chainlit run model.py```
+Llama-cpp: ```chainlit run model2.py```
 
 ## Acknowledgements
 [AI Anytime](https://www.youtube.com/watch?v=kXuHxI5ZcG0)
