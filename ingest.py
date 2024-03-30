@@ -12,17 +12,21 @@ file_name = "71763-gale-encyclopedia-of-medicine.-vol.-1.-2nd-ed.pdf"
 data = get_data_from_bucket(file_name)
 
 # Define the local directory to save the downloaded file
-LOCAL_DATA_PATH = 'raw_data/'
+# LOCAL_DATA_PATH = 'raw_data/'
 
-# Save the downloaded data to a local file
-local_file_path = os.path.join(LOCAL_DATA_PATH, file_name)
-with open(local_file_path, 'wb') as f:
-    f.write(data)
 
 # Define the directory where the vector database will be saved
 DB_FAISS_PATH = 'vectorstores/dbfaiss'
 
 def create_vector_db():
+    # Define the local directory to save the downloaded file (optional)
+    LOCAL_DATA_PATH = 'raw_data/'
+
+    # Save the downloaded data to a local file (optional)
+    local_file_path = os.path.join(LOCAL_DATA_PATH, file_name)
+    with open(local_file_path, 'wb') as f:
+        f.write(data)
+
     loader = DirectoryLoader(LOCAL_DATA_PATH, glob='*.pdf', loader_cls=PyPDFLoader)
     documents = loader.load()
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
