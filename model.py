@@ -29,8 +29,8 @@ def set_custom_prompt():
 
 def load_llm():
     llm = CTransformers(
-        model = "llama-2-7b-chat.ggmlv3.q8_0.bin",
-        model_type = "llama",
+        model = "mistral-7b-instruct-v0.2.Q3_K_S.gguf",
+        model_type = "mistral",
         max_new_tokens = 512,
         temperature = 0.5
     )
@@ -50,7 +50,7 @@ def retrieval_qa_chain(llm,prompt,db):
 
 def qa_bot():
     embeddings = HuggingFaceEmbeddings(model_name = 'sentence-transformers/all-MiniLM-L6-v2',
-                                       model_kwargs = {'device':'cuda'})
+                                       model_kwargs = {'device':'cpu'})
 
     # db = FAISS.load_local(DB_FAISS_PATH, embeddings)
 
