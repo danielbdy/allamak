@@ -7,7 +7,7 @@ from langchain.chains import RetrievalQA
 import chainlit as cl
 # from transformers import AutoTokenizer, AutoModelForCausalLM
 
-DB_FAISS_PATH = "vectorstores/db_faiss"
+DB_FAISS_PATH = "vectorstores/dbfaiss"
 
 custom_prompt_template = """Use the following pieces of information to answer the user's question.
 If you don't know the answer, please just say you don't know the answer. Do not try to make up an answer.

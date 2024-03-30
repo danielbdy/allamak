@@ -5,6 +5,7 @@ import os
 # Load environment variables from .env file
 load_dotenv()
 
+
 def get_data_from_bucket(file_name):
     """Retrieve data from a GCS bucket."""
     # Get the bucket name from environment variables
@@ -18,7 +19,6 @@ def get_data_from_bucket(file_name):
     blob = bucket.blob(file_name)
 
     # Download data from the blob
-    data = blob.download_as_string()
+    data = blob.download_as_bytes()
 
     return data
-

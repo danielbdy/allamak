@@ -9,3 +9,11 @@ sentence_transformers
 faiss_cpu
 chainlit
 ctransformers
+
+# API
+fastapi         # API framework
+pytz            # time zone management
+uvicorn         # web server
+# tests
+httpx           # HTTP client
+pytest-asyncio  # asynchronous I/O support for pytest
