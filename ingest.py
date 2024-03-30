@@ -3,6 +3,7 @@ from langchain_community.document_loaders import PyPDFLoader, DirectoryLoader
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 from data import get_data_from_bucket
+import os
 
 # Specify the file name you want to retrieve from the bucket
 file_name = "71763-gale-encyclopedia-of-medicine.-vol.-1.-2nd-ed.pdf"
