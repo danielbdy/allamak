@@ -19,15 +19,8 @@ data = get_data_from_bucket(file_name)
 DB_FAISS_PATH = 'vectorstores/dbfaiss'
 
 def create_vector_db():
-    # Define the local directory to save the downloaded file (optional)
-    LOCAL_DATA_PATH = 'raw_data/'
 
-    # Save the downloaded data to a local file (optional)
-    local_file_path = os.path.join(LOCAL_DATA_PATH, file_name)
-    with open(local_file_path, 'wb') as f:
-        f.write(data)
-
-    loader = DirectoryLoader(LOCAL_DATA_PATH, glob='*.pdf', loader_cls=PyPDFLoader)
+    loader = PyPDFLoader(data)
     documents = loader.load()
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
     texts = text_splitter.split_documents(documents)
