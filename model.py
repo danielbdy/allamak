@@ -1,13 +1,3 @@
-# Import Django
-import django
-from django.conf import settings
-
-# Assuming your Django project is in a directory named "myproject"
-import os
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "myproject.settings")
-django.setup()
-
-
 # from langchain_community import PromptTemplate
 from langchain_core.prompts import PromptTemplate
 from langchain_community.embeddings import HuggingFaceEmbeddings
