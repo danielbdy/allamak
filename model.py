@@ -5,26 +5,30 @@ from langchain_community.vectorstores import FAISS
 from langchain_community.llms import CTransformers
 from langchain.chains import RetrievalQA
 import chainlit as cl
+
 # from transformers import AutoTokenizer, AutoModelForCausalLM
 
-DB_FAISS_PATH = "vectorstores/db_faiss"
+DB_FAISS_PATH = "vectorstores/dbfaiss"
 
-custom_prompt_template = """Use the following pieces of information to answer the user's question.
-If you don't know the answer, please just say you don't know the answer. Do not try to make up an answer.
+custom_prompt_template = '''
+As a medical chatbot, your primary objective is to facilitate a dialogue that is not only conversational but also empathetic and rich in accurate medical information. It's vital to reflect on the preceding conversation to ensure context and continuity are maintained. When responding to the user's inquiries, your answers should be rooted in evidence-based medical knowledge, adhering to the latest healthcare guidelines.
+Previous Conversation:
+{history}
 
+Should the user's question fall outside your area of expertise, it's imperative to acknowledge this limitation transparently. In such cases, emphasize the importance of consulting with a qualified healthcare professional for personalized medical advice.
 Context: {context}
-Question: {question}
+User's Question: {question}
 
-Only returns the helpful answer below and nothing else.
+In crafting your response, focus on delivering information that is both precise and digestible, tailored to the user's expressed needs. Your answer should be structured to provide clear, reliable, and actionable guidance, prioritizing the user's well-being and informational needs. If the situation exceeds your capacity to provide an informed response, responsibly guide the user towards seeking professional medical consultation.
 Helpful answer:
-"""
+'''
+
 def set_custom_prompt():
     """
     Prompt template for QA retrieval for each vector stores
     """
 
-    prompt = PromptTemplate(template=custom_prompt_template, input_variables=['context','question'])
-
+    prompt = PromptTemplate(template=custom_prompt_template, input_variables=['context', 'question', 'history'])
     return prompt
 
 def load_llm():
@@ -32,8 +36,10 @@ def load_llm():
         model = "llama-2-7b-chat.ggmlv3.q8_0.bin",
         model_type = "llama",
         max_new_tokens = 512,
-        temperature = 0.5
+        temperature = 0.5,
+
     )
+
 
     # llm = AutoModelForCausalLM.from_pretrained(pretrained_model_name_or_path='gemma_gpu.bin',local_files_only=True,from_pt=True)
     return llm
@@ -50,7 +56,7 @@ def retrieval_qa_chain(llm,prompt,db):
 
 def qa_bot():
     embeddings = HuggingFaceEmbeddings(model_name = 'sentence-transformers/all-MiniLM-L6-v2',
-                                       model_kwargs = {'device':'cuda'})
+                                       model_kwargs = {'device':'cpu'})
 
     # db = FAISS.load_local(DB_FAISS_PATH, embeddings)
 
@@ -76,26 +82,47 @@ def final_result(query):
 @cl.on_chat_start
 async def start():
     chain = qa_bot()
-    msg = cl.Message(content="Starting the bot...")
-    await msg.send()
-    msg.content = "Hi, I am allamak. What is your question?"
-    await msg.update()
+    initial_history = "Hi, I am allamak. How can I assist you today?"
     cl.user_session.set("chain", chain)
+    cl.user_session.set("history", initial_history)
+    await cl.Message(content=initial_history).send()
+
 
 @cl.on_message
 async def main(message):
-    chain = cl.user_session.get("chain") # https://docs.chainlit.io/concepts/user-session
+    chain = cl.user_session.get('chain')
+
+    # Get existing history or initialize to empty string
+    history = cl.user_session.get('history', '')
+
+    # Update history with the new message
+    updated_history = f"{history}\nUser: {message.content}"
+    cl.user_session.set('history', updated_history)
+
+    # Prepare the input for the chain call, including the updated history
+    input_data = {
+        'query': message.content,
+        'history': updated_history
+    }
+
     cb = cl.AsyncLangchainCallbackHandler(
-        stream_final_answer = True, answer_prefix_tokens = ["FINAL","ANSWER"]
+        stream_final_answer = True, answer_prefix_tokens = ["FINAL", "ANSWER"]
     )
-    cb.answer_reached=True
-    res = await chain.ainvoke(message.content, callbacks=[cb]) # https://docs.chainlit.io/examples/qa  |ctrl-F message.content
+    cb.answer_reached = True
+
+    print(input_data)
+
+    # Pass the input data to the chain call
+    res = await chain.acall(input_data, callbacks=[cb])
     answer = res["result"]
     sources = res["source_documents"]
 
-    if sources:
-        answer += f"\nSources:" + str(sources)
-    else:
-        answer += f"\nNo sources found"
+    # Append bot's response to the history
+    updated_history += f"\nBot: {answer}"
+    cl.user_session.set('history', updated_history)
 
-    await cl.Message(content=answer).send()
+    if sources:
+        answer += f"\nSources:" + ', '.join([src['title'] for src in sources])
+    else:
+        answer += "\nNo Sources Found"
+    await cl.Message(content = answer).send()
