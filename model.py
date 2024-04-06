@@ -88,7 +88,7 @@ async def main(message):
         stream_final_answer = True, answer_prefix_tokens = ["FINAL","ANSWER"]
     )
     cb.answer_reached=True
-    res = await chain.ainvoke(message.content, callbacks=[cb]) # https://docs.chainlit.io/examples/qa  |ctrl-F message.content
+    res = await chain.acall(message.content, callbacks=[cb]) # https://docs.chainlit.io/examples/qa  |ctrl-F message.content
     answer = res["result"]
     sources = res["source_documents"]
 

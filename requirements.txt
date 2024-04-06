@@ -1,11 +1,12 @@
 pypdf
 langchain
 langchain-community
-torch
+torch==2.0.1
+torchvision==0.15.2
 accelerate
 bitsandbytes
 transformers
-sentence_transformers
+sentence_transformers==2.2.2
 faiss_cpu
 chainlit
 ctransformers

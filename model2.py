@@ -3,10 +3,11 @@ from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain_community.llms import LlamaCpp
 from langchain.chains import RetrievalQA
+
 import chainlit as cl
 
 DB_FAISS_PATH = "vectorstores/db_faiss"
-LLM_PATH="mistral-7b-instruct-v0.2.Q3_K_S.gguf" # Adjust the file name and path accordingly
+LLM_PATH="mistral-7b-instruct-v0.2.Q3_K_S.gguf"# "mistral-7b-instruct-v0.2.Q3_K_S.gguf" # Adjust the file name and path accordingly
 
 # 快速回复的字典
 quick_replies = {
@@ -66,9 +67,9 @@ def load_llm():
 
    llm = LlamaCpp(
       model_path=LLM_PATH,
-      temperature=0.75,
+      temperature=1.0,
       max_tokens=2000,
-      top_p=1
+      top_p=0.5
       )
 
    return llm
@@ -85,8 +86,8 @@ def retrieval_qa_chain(llm,prompt,db):
     return qa_chain
 
 def qa_bot():
-    embeddings = HuggingFaceEmbeddings(model_name = 'sentence-transformers/all-MiniLM-L6-v2',
-                                       model_kwargs = {'device':'cpu'})
+    embeddings = HuggingFaceEmbeddings(model_name='sentence-transformers/all-MiniLM-L6-v2',
+                                     model_kwargs = {'device':'cpu'})
     # db = FAISS.load_local(DB_FAISS_PATH, embeddings)
 
     db = FAISS.load_local(DB_FAISS_PATH, embeddings, allow_dangerous_deserialization=True)
