@@ -6,7 +6,7 @@ from langchain.chains import RetrievalQA
 import chainlit as cl
 
 DB_FAISS_PATH = "vectorstores/db_faiss"
-LLM_PATH="codellama-13b-python.Q5_K_S.gguf" # Adjust the file name and path accordingly
+LLM_PATH="mistral-7b-instruct-v0.2.Q3_K_S.gguf" # Adjust the file name and path accordingly
 
 # 快速回复的字典
 quick_replies = {
@@ -87,7 +87,6 @@ def retrieval_qa_chain(llm,prompt,db):
 def qa_bot():
     embeddings = HuggingFaceEmbeddings(model_name = 'sentence-transformers/all-MiniLM-L6-v2',
                                        model_kwargs = {'device':'cpu'})
-
     # db = FAISS.load_local(DB_FAISS_PATH, embeddings)
 
     db = FAISS.load_local(DB_FAISS_PATH, embeddings, allow_dangerous_deserialization=True)
