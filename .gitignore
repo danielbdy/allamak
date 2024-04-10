@@ -160,5 +160,14 @@ cython_debug/
 #.idea/
 
 # Workings
-modelworkings.py
-workings.ipynb
+x_registry.py
+x_params.py
+x_simple.py
+x_workings.ipynb
+x_chatbot/
+LLM/
+data/
+vectorstores/
+mistral-7b-instruct-v0.2.Q4_K_M.gguf
+index.faiss
+index.pkl
