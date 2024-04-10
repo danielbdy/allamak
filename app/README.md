@@ -4,6 +4,7 @@
 If the two folders are not shown after you pulled, just create them and place the files in them. See structure below.
 
 **Structure**
+```
 app/
 ├── LLM/
 │ └── MODEL.gguf
@@ -11,6 +12,7 @@ app/
 └── db_faiss/
 ├── index.faiss
 └── index.pkl
+```
 
 ### 1a. LLM portion to update in ok_model2.py
 If a different LLM is used, remember to update line 14 of `ok_model2.py` accordingly.
