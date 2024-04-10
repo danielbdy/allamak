@@ -9,9 +9,9 @@ app/
 ├── LLM/
 │ └── MODEL.gguf
 └── vectorstores/
-└── db_faiss/
-│ └── index.faiss
-│ └── index.pkl
+│ └── db_faiss/
+│ │ └── index.faiss
+│ │ └── index.pkl
 ```
 
 ### 1a. LLM portion to update in ok_model2.py
