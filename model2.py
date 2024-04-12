@@ -1,11 +1,12 @@
 from langchain_core.prompts import PromptTemplate
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
-from langchain_community.llms import CTransformers
+from langchain_community.llms import LlamaCpp
 from langchain.chains import RetrievalQA
 import chainlit as cl
 
 DB_FAISS_PATH = "vectorstores/db_faiss"
+LLM_PATH="./LLM/gemma-2b-hf-q/gemma-2b-hf-Q4_K_M.gguf" # Adjust the file name and path accordingly
 
 custom_prompt_template = """Use the following pieces of information to answer the user's question.
 If you don't know the answer, please just say you don't know the answer. Do not try to make up an answer.
@@ -26,15 +27,15 @@ def set_custom_prompt():
     return prompt
 
 def load_llm():
-    llm = CTransformers(
-        model = "LLM/llama-2-7b-chat.ggmlv3.q8_0/llama-2-7b-chat.ggmlv3.q8_0.bin", # Adjust the file path accordingly
-        model_type = "llama",
-        max_new_tokens = 512,
-        temperature = 0.5,
-        local_files_only=True
-    )
 
-    return llm
+   llm = LlamaCpp(
+      model_path=LLM_PATH,
+      temperature=0.75,
+      max_tokens=2000,
+      top_p=1
+      )
+
+   return llm
 
 def retrieval_qa_chain(llm,prompt,db):
     qa_chain = RetrievalQA.from_chain_type(
