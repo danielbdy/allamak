@@ -1,0 +1,20 @@
+# pypdf
+# langchain
+# langchain-community
+# torch
+# accelerate
+# bitsandbytes
+# transformers
+# sentence_transformers
+# faiss_cpu
+# chainlit
+# ctransformers
+
+# llama-cpp-python
+
+# fastapi
+# uvicorn
+
+streamlit
+websockets
+requests

@@ -10,10 +10,10 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
-DB_FAISS_PATH = "vectorstores/db_faiss"
-LLM_PATH = "LLM/mistral-7b-instruct-v0.2.Q4_K_M.gguf" # Adjust the file name and path accordingly
+DB_FAISS_PATH = "app/vectorstores/db_faiss"
+LLM_PATH = "app/LLM/mistral-7b-instruct-v0.2.Q4_K_M.gguf" # Adjust the file name and path accordingly
 custom_prompt_template = """Use the following pieces of information to answer the user's question.
-If you don't know the answer, please just say you don't know the answer. Do not try to make up an answer.
+If you don't know the answer, please just say you don't kanow the answer. Do not try to make up an answer.
 
 Context: {context}
 Question: {question}

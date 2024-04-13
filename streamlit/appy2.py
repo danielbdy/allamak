@@ -10,7 +10,10 @@ if st.button('Send'):
     if user_input:
         payload = {"message": user_input}
         input_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        response = requests.post("http://localhost:8000/chat", json=payload)
+        response = requests.post("https://fast-image-qj5cvw3zsq-ew.a.run.app/chat", json=payload)
+
+#http://localhost:8000/chat
+# https://allamak-chatbot-7t5y4vslgq-uc.a.run.app/chat
 
         if response.status_code == 200:
             response_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")

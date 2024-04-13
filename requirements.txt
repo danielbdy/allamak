@@ -15,5 +15,5 @@ llama-cpp-python
 fastapi
 uvicorn
 
-streamlit
-websockets
+# streamlit
+# websockets

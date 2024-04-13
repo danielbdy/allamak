@@ -174,3 +174,6 @@ vectorstores/
 mistral-7b-instruct-v0.2.Q4_K_M.gguf
 index.faiss
 index.pkl
+allamak-chatbot-c0a4f68b4bf6*
+.env
+.envrc
