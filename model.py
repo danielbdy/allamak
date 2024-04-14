@@ -50,7 +50,7 @@ def retrieval_qa_chain(llm,prompt,db):
 
 def qa_bot():
     embeddings = HuggingFaceEmbeddings(model_name = 'sentence-transformers/all-MiniLM-L6-v2',
-                                       model_kwargs = {'device':'cuda'})
+                                       model_kwargs = {'device':'cpu'})
 
     # db = FAISS.load_local(DB_FAISS_PATH, embeddings)
 
@@ -99,3 +99,16 @@ async def main(message):
         answer += f"\nNo sources found"
 
     await cl.Message(content=answer).send()
+
+
+
+def extract_text_from_pdfs(directory):
+    texts = []
+    for filename in os.listdir(directory):
+        if filename.endswith('.pdf'):
+            path = os.path.join(directory, filename)
+            with fitz.open(path) as doc:
+                text = " ".join(page.get_text() for page in doc)
+            texts.append(text)
+    print(texts)  # Debug: Print or log the texts to verify content
+    return texts

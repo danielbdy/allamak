@@ -1,11 +1,6 @@
-pypdf
-langchain
-langchain-community
-torch
-accelerate
-bitsandbytes
+streamlit
+PyMuPDF==1.18.19  # Ensure this matches the latest or required version
+openai
 transformers
-sentence_transformers
-faiss_cpu
-chainlit
-ctransformers
+torch  # Needed for transformers, install the correct version for your system
+numpy  # Often needed for handling arrays especially with embeddings
