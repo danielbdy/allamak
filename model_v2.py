@@ -1,14 +1,13 @@
+import os
 from langchain.llms import OpenAI
 from langchain.memory import ConversationBufferMemory
-from langchain.vectorstores import FAISS
 from langchain.chains import ConversationalRetrievalChain
-from langchain.embeddings.openai import OpenAIEmbeddings
+from dotenv import load_dotenv
 
-def setup_chain(documents):
-    api_key =  #input OpenAI key
-    embedding = OpenAIEmbeddings(model="text-embedding-3-small", api_key=api_key)
+load_dotenv()
+api_key = os.getenv('OPENAI_API_KEY')
 
-    docsearch = FAISS.from_documents(documents=documents, embedding=embedding)
+def setup_chain(docsearch):
     llm = OpenAI(api_key=api_key)
     memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
     retriever = docsearch.as_retriever(search_type="similarity", search_kwargs={"k": 4})
