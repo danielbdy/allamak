@@ -10,9 +10,6 @@ st.title('🩺🏥 Allamat Medical Chatbot')
 # Assuming 'openai_api_key' is correctly set in your Streamlit secrets
 client = OpenAI(api_key=st.secrets["default"]["openai_api_key"])
 
-# Access your Google API key securely from secrets
-google_api_key = st.secrets["default"]["google_api_key"]
-
 # Define the directory and file for storing chat data
 CHAT_DATA_DIR = 'chat_data'
 CHAT_HISTORY_FILE = 'chat_histories.json'
@@ -75,40 +72,10 @@ def manage_chat_sessions():
 # Call manage_chat_sessions function
 manage_chat_sessions()
 
-# Function to fetch healthcare places from Google Places API
-def fetch_healthcare_places(query, location='Singapore'):
-    base_url = 'https://maps.googleapis.com/maps/api/place/textsearch/json'
-    params = {
-        'query': f"{query} clinic near {location}",
-        'key': google_api_key,
-        'type': 'doctor|health'
-    }
-    try:
-        response = requests.get(base_url, params=params)
-        if response.status_code == 200:
-            results = response.json()['results']
-            return [(place['name'], place.get('formatted_address', 'No address provided')) for place in results]
-        else:
-            print(f"Failed to fetch places: {response.status_code}")
-            return []
-    except Exception as e:
-        print(f"Error during API request: {e}")
-        return []
-
-# Function to display a list of clinics in the sidebar
-def show_clinics_in_sidebar(recommendations):
-    if recommendations:
-        st.sidebar.header("Recommended Clinics")
-        for name, address in recommendations:
-            st.sidebar.text(f"{name}\n{address}\n")
-
 # Display existing messages and handle new user input
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
-        if message["role"] == "user":
-            recommendations = fetch_healthcare_places(message["content"])
-            show_clinics_in_sidebar(recommendations)
 
 # Chat input and response generation
 if prompt := st.chat_input("What's up?"):
