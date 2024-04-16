@@ -12,7 +12,7 @@ RUN pip install -r requirements.txt
 # EXPOSE $PORT
 # WORKDIR /app
 
-# CMD ["sh", "-c", "streamlit run ok_model2.py --server.port=$PORT --server.address=0.0.0.0"]
-CMD ["streamlit", "run", "app/app.py", "--server.port=8501", "--server.address=0.0.0.0"] # Local
+CMD ["sh", "-c", "streamlit run app/app.py", "--server.port=$PORT", "--server.address=0.0.0.0"]
+# CMD ["streamlit", "run", "app/app.py", "--server.port=8501", "--server.address=0.0.0.0"] # Local
 # CMD ["uvicorn", "app.ok_model2:app", "--host", "0.0.0.0"]
 # CMD uvicorn app.ok_model2:app --host 0.0.0.0 --port $PORT
