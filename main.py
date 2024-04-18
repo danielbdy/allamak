@@ -1,40 +1,11 @@
-# from data_loader import process_pdf
-# from model_v2 import setup_chain
-# import os
-# from langchain.llms import OpenAI
-# from langchain.memory import ConversationBufferMemory
-# from langchain.vectorstores import FAISS
-# from langchain.chains import ConversationalRetrievalChain
-# from langchain.embeddings.openai import OpenAIEmbeddings
-# from dotenv import load_dotenv
 
-# def allamak(query, crc, memory):
-#     history = memory.buffer
-#     response = crc({"question": query, "chat_history": history})
-#     return response
-
-# def main():
-#     api_key =  os.getenv('OPENAI_API_KEY')
-#     pdf_file_path = 'content/71763-gale-encyclopedia-of-medicine.-vol.-1.-2nd-ed.pdf'
-#     doc_page = process_pdf(pdf_file_path)
-#     embedding = OpenAIEmbeddings(model="text-embedding-3-small", api_key=api_key)
-#     docsearch = FAISS.from_documents(documents=doc_page, embedding=embedding)
-#     crc, memory = setup_chain(docsearch)
-
-
-# if __name__ == "__main__":
-#     main()
-
-# main.py
-# main.py
 from data_loader import process_pdf
 from model_v2 import setup_chain
 import os
 from dotenv import load_dotenv
 from langchain.embeddings.openai import OpenAIEmbeddings
-from langchain_openai import OpenAIEmbeddings
 from langchain.vectorstores import FAISS
-
+import pathlib
 
 def allamak(query, crc, memory):
     """Function to handle query processing with conversation history."""
@@ -47,11 +18,28 @@ def main():
     load_dotenv()
     api_key = os.getenv('OPENAI_API_KEY')
     pdf_file_path = 'content/71763-gale-encyclopedia-of-medicine.-vol.-1.-2nd-ed.pdf'
+    embeddings_dir = "embeddings"  # Directory to store the FAISS index
+    db_faiss_path = os.path.join(embeddings_dir, "index.pkl")
 
-    # Load and process PDF, then create embeddings
-    doc_page = process_pdf(pdf_file_path)
+    # Ensure existence of embeddings directory
+    pathlib.Path(embeddings_dir).mkdir(parents=True, exist_ok=True)
+
     embedding = OpenAIEmbeddings(model="text-embedding-3-small", api_key=api_key)
-    docsearch = FAISS.from_documents(documents=doc_page, embedding=embedding)
+
+    # Load existing FAISS index (if it exists)
+    if os.path.exists(db_faiss_path):
+        print("Loading existing FAISS index...")
+        docsearch = FAISS.load_local(db_faiss_path, embeddings=embedding, allow_dangerous_deserialization=True)
+    else:
+        print("FAISS index not found. Creating embeddings...")
+        # Load and process PDF, then create embeddings
+        doc_page = process_pdf(pdf_file_path)
+
+        # Create new FAISS index (assuming your chunking is done within process_pdf)
+        docsearch = FAISS.from_documents(doc_page, embedding)
+
+        # Save the FAISS index
+        docsearch.save_local(db_faiss_path)
 
     # Setup the conversational chain with the prepared vector store
     crc, memory = setup_chain(docsearch)
