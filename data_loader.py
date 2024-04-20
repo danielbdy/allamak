@@ -2,6 +2,7 @@ from PyPDF2 import PdfReader
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.schema import Document
 
+
 def process_pdf(file_path):
     doc_reader = PdfReader(file_path)
     doc_page = []
