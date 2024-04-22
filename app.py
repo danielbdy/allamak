@@ -3,7 +3,7 @@ from streamlit_chat import message
 import main
 
 # Assuming your image is named 'doctor_image.png' and is in the same directory as your script
-image_path = 'image/allamak.png'
+image_path = 'image/allamak_rebrand.png'
 
 col1, col2 = st.columns([1, 3])
 
