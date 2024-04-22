@@ -1,4 +1,3 @@
-
 from data_loader import process_pdf
 from model_v2 import setup_chain
 import os
@@ -12,6 +11,19 @@ def allamak(query, crc, memory):
     history = memory.buffer
     response = crc({"question": query, "chat_history": history})
     return response['answer']
+
+
+# def allamak(query, crc, memory):
+#     history = memory.buffer
+#     response = crc({"question": query, "chat_history": history})
+#     try:
+#         answer = response['answer']
+#         page = response['source_documents'][0].metadata['page']  # Access page metadata
+#         text_response = str(answer) + ' from page ' + str(page)
+#     except (KeyError, IndexError):
+#         text_response = "I found an answer, but couldn't determine the page number."
+#     return text_response
+
 
 def main():
     """Initializes and returns the components necessary for the chat system."""

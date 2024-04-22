@@ -1,43 +1,19 @@
-# import streamlit as st
-# from streamlit_chat import message
-# import main
-
-# st.subheader("Allamak - your A-D diagnosis chatbot")
-
-# # Initialize the application components once
-# if 'crc' not in st.session_state or 'memory' not in st.session_state:
-#     st.session_state.crc, st.session_state.memory = main.main()
-
-# # Initialize chat state
-# if 'init' not in st.session_state:
-#     st.session_state['responses'] = []
-#     st.session_state['requests'] = []
-#     st.session_state['init'] = True  # Ensures that initialization doesn't happen again
-
-# # Chat UI
-# response_container = st.container()
-# text_container = st.container()
-
-# with text_container:
-#     user_input = st.text_input("Type your question here:", key="input")
-#     if user_input:
-#         st.session_state.requests.append(user_input)
-#         response = main.allamak(user_input, st.session_state.crc, st.session_state.memory)
-#         st.session_state.responses.append(response)
-
-# with response_container:
-#     # Loop through the number of messages based on the longest list (requests or responses)
-#     for i in range(max(len(st.session_state['requests']), len(st.session_state['responses']))):
-#         if i < len(st.session_state['requests']):
-#             message(st.session_state['requests'][i], is_user=True, key=f"{i}_user")
-#         if i < len(st.session_state['responses']):
-#             message(st.session_state['responses'][i], key=f"{i}")
-
 import streamlit as st
 from streamlit_chat import message
 import main
 
-st.subheader("Allamak - your A-D diagnosis chatbot")
+# Assuming your image is named 'doctor_image.png' and is in the same directory as your script
+image_path = 'image/allamak.png'
+
+col1, col2 = st.columns([1, 3])
+
+with col1:
+    st.image(image_path, width=200)  # Adjust width as needed
+
+with col2:
+    st.subheader("Allamak - your personal AI doctor")
+    st.markdown("Hello I'm Allamak! We can work on a pressing problem. Just tell me what’s wrong. You can say “I have a sore throat” or \"What is Anemia?\"")
+# st.subheader("Allamak - your diagnosis chatbot")
 
 # Initialize the application components once
 if 'crc' not in st.session_state or 'memory' not in st.session_state:

@@ -17,6 +17,7 @@ def setup_chain(docsearch):
         chain_type="stuff",
         retriever=retriever,
         memory=memory
+
     )
 
     return crc, memory
