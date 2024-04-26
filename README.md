@@ -4,7 +4,15 @@ This project develops a chatbot that leverages Natural Language Processing (NLP)
 
 ## Project Description
 
-The Retrieval Augmented Generation (RAG) Chatbot Diagnosis System uses a combination of OpenAI's advanced language models and retrieval-augmented techniques to enhance the chatbot's ability to understand and process medical queries. This system asks relevant questions based on initial symptoms described by the user and guides them towards potential medical advice or diagnosis.
+The Retrieval Augmented Generation (RAG) Chatbot Diagnosis System uses a combination of OpenAI's advanced language models and retrieval-augmented techniques to enhance the chatbot's ability to understand and process medical queries. This system asks diagnoses initial symptoms described by the user and guides them towards potential medical advice or diagnosis based on medically provided documents that enhances LLMs response.
+
+## Architecture Overview
+
+Document: gale encyclopedia of Medicine
+Embedding: text-embedding-3-small	
+Vectorstore: FAISS
+LLM: GPT 3.5 Turbo
+Interface: Streamlit
 
 ## Features
 
