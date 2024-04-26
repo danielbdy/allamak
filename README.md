@@ -8,11 +8,11 @@ The Retrieval Augmented Generation (RAG) Chatbot Diagnosis System uses a combina
 
 ## Architecture Overview
 
-Document: gale encyclopedia of Medicine
-Embedding: text-embedding-3-small	
-Vectorstore: FAISS
-LLM: GPT 3.5 Turbo
-Interface: Streamlit
+- **Document**: gale encyclopedia of Medicine
+- **Embedding**: text-embedding-3-small	
+- **Vectorstore**: FAISS
+- **LLM**: GPT 3.5 Turbo
+- **Interface**: Streamlit
 
 ## Features
 
